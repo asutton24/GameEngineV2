@@ -390,4 +390,5 @@ def main():
             else:
                 file.write(blank.getBytes())
 
-main()
+if __name__ == "__main__":   
+    main()

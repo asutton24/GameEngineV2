@@ -54,7 +54,7 @@ void drawSprite(dbyte index, dbyte palIndex, byte xlen, byte ylen, int x, int y)
     }
     for (int i = 0; i < ylen; i++){
         for (int j = 0; j < xlen; j++){
-            drawTile(spritesheet[index], palettes[palIndex], x + j * 8 * res, y + i * 8 * res, 1);
+            drawTile(spritesheet[index], palettes[palIndex], x + j * 8, y + i * 8, 1);
             index += 1;
             if (index == spr_length){
                 return;
