@@ -13,6 +13,7 @@ byte initLevel(Level* l, char* path){
     fread(&tileLen, 1, 1, file);
     if (tileLen == 0) return 1;
     byte* tileSheet = (byte*)malloc(2 * tileLen);
+    if (tileSheet > 0){}
     fread(tileSheet, 1, 2 * tileLen, file);
     fread(&(l->numOfTiles), sizeof(int), 1, file);
     l->tileMap = (SolidObject*)malloc(l->numOfTiles * sizeof(SolidObject));
@@ -22,18 +23,18 @@ byte initLevel(Level* l, char* path){
     int cy = 0;
     while (index < l->numOfTiles){
         fread(instruction, 1, 2, file);
-        if (instruction[0] == 0){
+        if (instruction[0] == 0xFF){
             if (l->mode == 0){
                 cy += instruction[1] * 16;
-                cx += cy / 368;
+                cx += cy / 368 * 16;
                 cy %= 368;
             } else {
                 cx += instruction[1] * 16;
-                cy += cx / 640;
+                cy += cx / 640 * 16;
                 cx %= 640;
             }
         } else {
-            for (int i = 0; i < instruction[1]; i++){
+            for (int i = 0; i < instruction[1] && index < l->numOfTiles; i++){
                 l->tileMap[index].x = cx;
                 l->tileMap[index].y = cy;
                 l->tileMap[index].xlen = 2;
@@ -55,6 +56,7 @@ byte initLevel(Level* l, char* path){
                 }
                 index++;
             }
+
         }
     }
     l->enemies = NULL;
